@@ -5,6 +5,13 @@ import sys
 import time
 import GameInfo
 import Ball
+import Rectangle
+
+def drawBall(ball):
+    pygame.draw.ellipse(screen,(0,0,0),pygame.Rect([ball.x,ball.y],(ball.radius,ball.radius)))
+def drawRect(rect):
+    pygame.draw.rect(screen,(0,0,0), [rect.x, rect.y, rect.length, rect.length])
+
 
 pygame.init()
 
@@ -14,8 +21,13 @@ clock = pygame.time.Clock()
 
 key = 0
 text =" "
+count=GameInfo.displayHeight
+max=0
 
 ball = Ball.Ball(170,0)
+rects = list()
+
+rects.append(Rectangle.Rectangle(100,100,100,1))
 
 while GameInfo.Run:
 
@@ -51,21 +63,37 @@ while GameInfo.Run:
         ball.setStatus(newxspeed=ball.xspeed*-0.9)
         ball.setStatus(newx=GameInfo.displayWidth-ball.radius)
 
+
+
+    for rect in rects:
+        ball.betweenCheck(rect)
+        rect.update()
+        if GameInfo.displayHeight <= rect.y:
+            rects.remove(rect)
+    ball.update()
+    count+=1
+    if max<=count-ball.y:
+        max = count-ball.y
+
+
     #DRAW
     screen.fill((255,255,255))
 
-    pygame.draw.ellipse(screen,(0,0,0),pygame.Rect([ball.x,ball.y],(ball.radius,ball.radius)))
+    drawBall(ball)
 
-    ball.update()
+    for rect in rects:
+        drawRect(rect)
+
+
+
 
     if key :
         sf = pygame.font.SysFont("Monospace",20,bold=True)
-        textStr = pygame.key.name(key)+" "+keyStatus+" "+str(ball.y)
+        textStr = pygame.key.name(key)+" "+keyStatus+" "+str(max)
         text = sf.render(textStr,True,(0,172,255))
         screen.blit(text,(50,40))
 
     pygame.display.flip()
-    clock.tick(60)
-
+    clock.tick(GameInfo.framePerSecond)
 
 pygame.QUIT()

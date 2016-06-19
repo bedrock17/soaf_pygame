@@ -1,5 +1,6 @@
 __author__ = 'sh'
 
+
 def abs(N):
     return N if N>=0 else -N
 
@@ -29,13 +30,6 @@ class Ball:
     def bounce(self,yspeed):
         self.yspeed=yspeed
 
-    #움직임 수정
-    def update(self):
-        if self.allowphysics:
-            self.physics()
-        self.y+=self.yspeed
-        self.x+=self.xspeed
-
     def setStatus(self,newx=False,newy=False,newxspeed=False,newyspeed=False):
         if(not isinstance(newx,bool)):
             self.x=newx
@@ -45,6 +39,45 @@ class Ball:
             self.xspeed=newxspeed
         if(not isinstance(newyspeed,bool)):
             self.yspeed=newyspeed
+
+    def betweenCheck(self,target):
+        R = False
+        L = False
+        U = False
+        D = False
+
+        if(target.x<=self.x and self.x <= target.x+target.length):
+            L=True
+        elif(target.x<=self.x+self.radius and self.x+self.radius <= target.x+target.length):
+            R=True
+        if(target.y<=self.y and self.y <= target.y+target.length):
+            U=True
+        elif(target.y<=self.y+self.radius and self.y+self.radius <= target.y+target.length):
+            D=True
+
+        if R and (U or D):
+            if self.xspeed>=0:
+                self.xspeed*=-1
+        if L and (U or D):
+            if self.xspeed<=0:
+                self.xspeed*=-1
+        if U and (R or L):
+            if self.yspeed<=0:
+                self.yspeed*=-1
+        if D and (R or L):
+            if self.yspeed>=0:
+                self.yspeed*=-1
+
+
+
+
+    #움직임 수정
+    def update(self):
+        if self.allowphysics:
+            self.physics()
+        self.y+=self.yspeed
+        self.x+=self.xspeed
+
 
 
 
