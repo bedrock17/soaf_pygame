@@ -43,6 +43,7 @@ while GameInfo.Run:
             keyStatus ="KEY UP"
             key = event.key
 
+
     #UPDATE
     if key == pygame.K_RIGHT and keyStatus == "KEY DOWN":
             ball.setStatus(newxspeed=ball.xspeed+2)
