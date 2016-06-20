@@ -11,13 +11,14 @@ class Ball:
     yspeed=0.0
     allowphysics=True
     radius = 50
+    bouncSpeed = - 25
 
     def __init__(self,x,y,allowphysics=True):
         self.x=x
         self.y=y
         self.allowphysics=allowphysics
 
-    def physics(self,yspeed=0.5,resistance=0.95):
+    def physics(self,yspeed=0.7,resistance=0.95):
         self.yspeed+=yspeed
         if abs(self.xspeed) <= 1:
             self.xspeed=0
@@ -27,8 +28,8 @@ class Ball:
     def move(self,xspeed):
         self.xspeed+=xspeed
 
-    def bounce(self,yspeed):
-        self.yspeed=yspeed
+    def bounce(self):
+        self.yspeed=self.bouncSpeed
 
     def setStatus(self,newx=False,newy=False,newxspeed=False,newyspeed=False):
         if(not isinstance(newx,bool)):
@@ -61,15 +62,12 @@ class Ball:
         if L and (U or D):
             if self.xspeed<=0:
                 self.xspeed*=-1
-        if U and (R or L):
+        if U and (R or L) and not D:
             if self.yspeed<=0:
-                self.yspeed*=-1
-        if D and (R or L):
+                self.yspeed=target.speed
+        if D and (R or L) and not U:
             if self.yspeed>=0:
-                self.yspeed*=-1
-
-
-
+                self.bounce()
 
     #움직임 수정
     def update(self):

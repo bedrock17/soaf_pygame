@@ -6,6 +6,7 @@ import time
 import GameInfo
 import Ball
 import Rectangle
+import random
 
 def drawBall(ball):
     pygame.draw.ellipse(screen,(0,0,0),pygame.Rect([ball.x,ball.y],(ball.radius,ball.radius)))
@@ -23,6 +24,9 @@ key = 0
 text =" "
 count=GameInfo.displayHeight
 max=0
+score=0
+
+diff = 10 #난이도 (1이 제일 높음)
 
 ball = Ball.Ball(170,0)
 rects = list()
@@ -31,46 +35,51 @@ rects.append(Rectangle.Rectangle(100,100,100,1))
 
 while GameInfo.Run:
 
+
     #KEY INPUT
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             GameInfo.Run=False
         elif event.type == pygame.KEYDOWN:
-            keyStatus ="KEY DOWN"
+            keyStatus = 1
             key = event.key
 
         elif event.type == pygame.KEYUP:
-            keyStatus ="KEY UP"
+            keyStatus = 0
             key = event.key
 
 
     #UPDATE
-    if key == pygame.K_RIGHT and keyStatus == "KEY DOWN":
+    if key == pygame.K_RIGHT and keyStatus:
             ball.setStatus(newxspeed=ball.xspeed+2)
-    if key == pygame.K_LEFT and keyStatus == "KEY DOWN":
+    if key == pygame.K_LEFT and keyStatus:
             ball.setStatus(newxspeed=ball.xspeed-2)
 
-    if key == pygame.K_SPACE and keyStatus =="KEY DOWN":
-            ball.setStatus(newyspeed=ball.yspeed-10)
-
     if ball.y+50>=GameInfo.displayHeight:
-        ball.setStatus(newyspeed=-15)
+        ball.bounce()
 
     if ball.x <= 0 :
         ball.setStatus(newxspeed=ball.xspeed*-0.9)
+        ball.setStatus(newxspeed=ball.xspeed+1)
         ball.setStatus(newx=0)
 
     elif ball.x + 50 >= GameInfo.displayWidth :
         ball.setStatus(newxspeed=ball.xspeed*-0.9)
+        ball.setStatus(newxspeed=ball.xspeed-1)
         ball.setStatus(newx=GameInfo.displayWidth-ball.radius)
 
+    if rects.__len__() <= 15 and count%(diff*10)==0:
+        rects.append(Rectangle.Rectangle(random.random()*GameInfo.displayWidth-GameInfo.rectangleSize/2,-GameInfo.rectangleSize,GameInfo.rectangleSize,1+(count/800)))
 
+    if count%1000==0 and diff>1:
+        diff-=1
 
     for rect in rects:
         ball.betweenCheck(rect)
         rect.update()
         if GameInfo.displayHeight <= rect.y:
             rects.remove(rect)
+            score+=1
     ball.update()
     count+=1
     if max<=count-ball.y:
@@ -85,16 +94,29 @@ while GameInfo.Run:
     for rect in rects:
         drawRect(rect)
 
-
-
-
     if key :
         sf = pygame.font.SysFont("Monospace",20,bold=True)
-        textStr = pygame.key.name(key)+" "+keyStatus+" "+str(max)
+        textStr = "score: " + str(score)
         text = sf.render(textStr,True,(0,172,255))
         screen.blit(text,(50,40))
 
     pygame.display.flip()
     clock.tick(GameInfo.framePerSecond)
 
-pygame.QUIT()
+    if(ball.y>=GameInfo.displayHeight):
+        break
+
+
+screen.fill((255,255,255))
+sf = pygame.font.SysFont("Monospace",40,bold=True)
+textStr = "Game Over"
+text = sf.render(textStr,True,(0,172,255))
+screen.blit(text,(GameInfo.displayWidth/2-GameInfo.displayWidth/5,GameInfo.displayHeight/2))
+textStr = str(score)
+text = sf.render(textStr,True,(0,172,255))
+screen.blit(text,(GameInfo.displayWidth/2-GameInfo.displayWidth/5,GameInfo.displayHeight/2+100))
+
+pygame.display.flip()
+time.sleep(2)
+
+
