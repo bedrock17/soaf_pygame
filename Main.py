@@ -22,16 +22,16 @@ clock = pygame.time.Clock()
 
 key = 0
 text =" "
-count=GameInfo.displayHeight
+count=3000
 max=0
 score=0
 
-diff = 10 #난이도 (1이 제일 높음)
+diff = 7 #난이도 (1이 제일 높음)
 
-ball = Ball.Ball(170,0)
+ball = Ball.Ball(GameInfo.displayWidth/2,GameInfo.displayHeight/2)
 rects = list()
 
-rects.append(Rectangle.Rectangle(100,100,100,1))
+
 
 while GameInfo.Run:
 
@@ -60,16 +60,16 @@ while GameInfo.Run:
 
     if ball.x <= 0 :
         ball.setStatus(newxspeed=ball.xspeed*-0.9)
-        ball.setStatus(newxspeed=ball.xspeed+1)
+        ball.setStatus(newx=ball.x+1)
         ball.setStatus(newx=0)
 
-    elif ball.x + 50 >= GameInfo.displayWidth :
+    elif ball.x + ball.radius >= GameInfo.displayWidth :
         ball.setStatus(newxspeed=ball.xspeed*-0.9)
-        ball.setStatus(newxspeed=ball.xspeed-1)
+        ball.setStatus(newx=ball.x-1)
         ball.setStatus(newx=GameInfo.displayWidth-ball.radius)
 
     if rects.__len__() <= 15 and count%(diff*10)==0:
-        rects.append(Rectangle.Rectangle(random.random()*GameInfo.displayWidth-GameInfo.rectangleSize/2,-GameInfo.rectangleSize,GameInfo.rectangleSize,1+(count/800)))
+        rects.append(Rectangle.Rectangle(random.random()*GameInfo.displayWidth-GameInfo.rectangleSize/2,-GameInfo.rectangleSize,GameInfo.rectangleSize,1+(count/400)))
 
     if count%1000==0 and diff>1:
         diff-=1
