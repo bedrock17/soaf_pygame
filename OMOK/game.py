@@ -17,6 +17,7 @@ print(list(STONE))
 
 screen = pygame.display.set_mode((1000, 1000))
 
+
 clock = pygame.time.Clock()
 
 
@@ -154,9 +155,9 @@ class OMOK:
       for j in range(self.height + 1):
         if self.map[i][j] == STONE.BLACK:
           # pygame.draw.circle(screen, (0, 0, 0), [width * i - self.stoneRadius, height * j - self.stoneRadius], self.stoneRadius)
-          pygame.draw.ellipse(screen, (0,0,0), pygame.Rect([width * i - self.stoneRadius, height * j - self.stoneRadius], (self.stoneRadius * 2, self.stoneRadius * 2)))
+          pygame.draw.ellipse(screen, (255,0,0), pygame.Rect([width * i - self.stoneRadius, height * j - self.stoneRadius], (self.stoneRadius * 2, self.stoneRadius * 2)))
         elif self.map[i][j] == STONE.WHITE:
-          pygame.draw.ellipse(screen, (0xff,0xff,0xff), pygame.Rect([width * i - self.stoneRadius, height * j - self.stoneRadius], (self.stoneRadius * 2, self.stoneRadius * 2)))
+          pygame.draw.ellipse(screen, (0,128,0), pygame.Rect([width * i - self.stoneRadius, height * j - self.stoneRadius], (self.stoneRadius * 2, self.stoneRadius * 2)))
           pygame.draw.ellipse(screen, (0,0,0), pygame.Rect([width * i - self.stoneRadius, height * j - self.stoneRadius], (self.stoneRadius * 2, self.stoneRadius * 2)), 2)
 
   def gameEnd(self):
@@ -212,7 +213,7 @@ while omok.run:
     omok.proc(pos)
 
   #DRAW
-  screen.fill((255,255,255))
+  screen.fill((198,139,18))
   omok.draw()
 
 
