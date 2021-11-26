@@ -154,25 +154,25 @@ class OMOK:
       for j in range(self.height + 1):
         if self.map[i][j] == STONE.BLACK:
           # pygame.draw.circle(screen, (0, 0, 0), [width * i - self.stoneRadius, height * j - self.stoneRadius], self.stoneRadius)
-          pygame.draw.ellipse(screen, (0,0,0), pygame.Rect([width * i - self.stoneRadius, height * j - self.stoneRadius], (self.stoneRadius * 2, self.stoneRadius * 2)))
+          pygame.draw.ellipse(screen, (255,0,0), pygame.Rect([width * i - self.stoneRadius, height * j - self.stoneRadius], (self.stoneRadius * 2, self.stoneRadius * 2)))
         elif self.map[i][j] == STONE.WHITE:
-          pygame.draw.ellipse(screen, (0xff,0xff,0xff), pygame.Rect([width * i - self.stoneRadius, height * j - self.stoneRadius], (self.stoneRadius * 2, self.stoneRadius * 2)))
+          pygame.draw.ellipse(screen, (0,255,0), pygame.Rect([width * i - self.stoneRadius, height * j - self.stoneRadius], (self.stoneRadius * 2, self.stoneRadius * 2)))
           pygame.draw.ellipse(screen, (0,0,0), pygame.Rect([width * i - self.stoneRadius, height * j - self.stoneRadius], (self.stoneRadius * 2, self.stoneRadius * 2)), 2)
 
   def gameEnd(self):
 
     if self.turn == STONE.BLACK:
-      screen.fill((0,0,0))
+      screen.fill((255,0,0))
     else:
-      screen.fill((0xff, 0xff, 0xff))
+      screen.fill((0, 255, 0))
     sf = pygame.font.SysFont("Monospace",40,bold=True)
-    textStr = "WIN"
+    textStr = " "
     text = sf.render(textStr,True,(0,172,255))
     screen.blit(text,((screen.get_width()/2, screen.get_height()/2)))
     if self.turn == STONE.BLACK:
-      textStr = "BLACK"
+      textStr = "RED WIN!"
     else:
-      textStr = "WHITE"
+      textStr = "GREEN WIN!"
     text = sf.render(textStr,True,(0,172,255))
     screen.blit(text,(screen.get_width()/2, screen.get_height()/2  + 100))
 
