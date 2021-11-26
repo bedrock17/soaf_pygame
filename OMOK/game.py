@@ -212,7 +212,8 @@ while omok.run:
     omok.proc(pos)
 
   #DRAW
-  screen.fill((255,255,255))
+  print("Test")
+  screen.fill((198, 139, 18))
   omok.draw()
 
 
