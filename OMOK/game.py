@@ -153,7 +153,7 @@ class OMOK:
     for i in range(self.width + 1):
       for j in range(self.height + 1):
         if self.map[i][j] == STONE.BLACK:
-          pygame.draw.circle(screen, (0,0,0), [width * i - self.stoneRadius, height * j - self.stoneRadius], self.stoneRadius)
+          # pygame.draw.circle(screen, (0,0,0), [width * i - self.stoneRadius, height * j - self.stoneRadius], self.stoneRadius)
           pygame.draw.ellipse(screen, (255,0,0), pygame.Rect([width * i - self.stoneRadius, height * j - self.stoneRadius], (self.stoneRadius * 2, self.stoneRadius * 2)))
         elif self.map[i][j] == STONE.WHITE:
           pygame.draw.ellipse(screen, (0,255,0), pygame.Rect([width * i - self.stoneRadius, height * j - self.stoneRadius], (self.stoneRadius * 2, self.stoneRadius * 2)))
